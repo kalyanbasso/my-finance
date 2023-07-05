@@ -5,11 +5,10 @@ import {
   View,
   Image,
   TouchableOpacity,
-  ScrollView,
   SafeAreaView,
 } from "react-native";
 
-import { Card } from "../../components/card";
+import { Cards } from "../../components/cards";
 import { ListTransations } from "../../components/listTransaction";
 import { useState, useEffect } from "react";
 
@@ -58,26 +57,7 @@ export function Home() {
         </View>
       </View>
 
-      <ScrollView horizontal style={styles.containerCards}>
-        <Card
-          title="Entradas"
-          amount={cards.totalCards.totalIncoming}
-          date={cards.lastIncomeTransaction}
-          icon="income"
-        />
-        <Card
-          title="Saídas"
-          amount={cards.totalCards.totalOutcoming}
-          date={cards.lastOutcomingTransaction}
-          icon="outcome"
-        />
-        <Card
-          title="Total"
-          amount={cards.totalCards.total}
-          date={new Date()}
-          icon="totalCard"
-        />
-      </ScrollView>
+      <Cards data={cards} />
 
       <View style={styles.countItens}>
         <Text style={styles.countText}>{transactions.count} itens</Text>
