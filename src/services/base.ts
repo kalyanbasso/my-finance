@@ -1,7 +1,18 @@
 import { HttpClient } from "../infra/HttpClient";
+import { FactoryTransaction } from "../domain/Transaction/FactoryTransaction";
 
 export default async function base() {
-    await del()
+  const teste = new FactoryTransaction().execute();
+  const uniqueName = "teste" + Math.random();
+  await teste.create({
+    id: undefined,
+    title: uniqueName,
+    amount: 1001,
+    type: "income",
+    category: "teste",
+    date: new Date(),
+  })
+
 }
 
 async function get() {

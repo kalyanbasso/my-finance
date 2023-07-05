@@ -1,10 +1,14 @@
-import { ITransatcion, ListType } from "./ITransatcion";
+import { ITransatcion, ListType, CreateType } from "./ITransatcion";
 import { TransactionDataType } from "../../entity/Transaction/TransactionEntity";
+import { FactoryTransactionEntity } from "../../entity/Transaction/FactoryTransactionEntity";
 
 export class Transaction implements ITransatcion {
   private listTransaction: TransactionDataType[] = [];
 
-  constructor(private readonly getListApi: ListType) {}
+  constructor(
+    private readonly getListApi: ListType,
+    private readonly createTransaction: CreateType
+  ) {}
 
   format(transaction: TransactionDataType) {
     return {
@@ -24,6 +28,24 @@ export class Transaction implements ITransatcion {
     );
     this.listTransaction = listTransactionFormated;
     return listTransactionFormated;
+  }
+
+  async create(transaction: TransactionDataType) {
+    const valueTransaction = new FactoryTransactionEntity(
+      transaction.id,
+      transaction.title,
+      transaction.amount,
+      transaction.type,
+      transaction.category,
+      transaction.date
+    ).create();
+    const newTransaction = valueTransaction.create();
+    // todo return error (or not?)
+    if (!Object.keys(newTransaction).length){
+      throw new Error("Transaction not created");
+    }
+
+    await this.createTransaction(newTransaction);
   }
 
   get getList() {

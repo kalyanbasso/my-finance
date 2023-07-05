@@ -36,6 +36,20 @@ export function Home() {
     loadTransactions();
   }, []);
 
+  async function handleNewTransaction() {
+    setLoading(true);
+    try {
+      await base();
+      await transactions.list();
+      await cards.getCards();
+    } catch (error) {
+      console.error("handleNewTransaction");
+      // throw new Error("handleNewTransaction: ", error as Error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
@@ -49,7 +63,7 @@ export function Home() {
               />
             </View>
           </View>
-          <TouchableOpacity onPress={() => base()}>
+          <TouchableOpacity onPress={() => handleNewTransaction()}>
             <Text style={styles.headerButtonNewTransaction}>
               Nova transação
             </Text>
