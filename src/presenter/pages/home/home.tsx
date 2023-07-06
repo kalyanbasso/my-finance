@@ -15,11 +15,14 @@ import { useState, useEffect } from "react";
 import base from "../../../services/base";
 import { FactoryCards } from "../../../domain/Cards/FactoryCards";
 import { FactoryTransaction } from "../../../domain/Transaction/FactoryTransaction";
+import Modal from "react-native-modal";
+import { CreateTransactionForm } from "../../form/createTransaction/createTransactionForm";
 
 export function Home() {
   const [cards] = useState(new FactoryCards().execute());
   const [transactions] = useState(new FactoryTransaction().execute());
   const [loading, setLoading] = useState(false);
+  const [isOpen, setOpen] = useState(false);
 
   useEffect(() => {
     async function loadTransactions() {
@@ -36,19 +39,20 @@ export function Home() {
     loadTransactions();
   }, []);
 
-  async function handleNewTransaction() {
-    setLoading(true);
-    try {
-      await base();
-      await transactions.list();
-      await cards.getCards();
-    } catch (error) {
-      console.error("handleNewTransaction");
-      // throw new Error("handleNewTransaction: ", error as Error);
-    } finally {
-      setLoading(false);
-    }
-  }
+
+  // async function handleNewTransaction() {
+  //   setLoading(true);
+  //   try {
+  //     await base();
+  //     await transactions.list();
+  //     await cards.getCards();
+  //   } catch (error) {
+  //     console.error("handleNewTransaction");
+  //     // throw new Error("handleNewTransaction: ", error as Error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -63,7 +67,7 @@ export function Home() {
               />
             </View>
           </View>
-          <TouchableOpacity onPress={() => handleNewTransaction()}>
+          <TouchableOpacity onPress={() => setOpen(!isOpen)}>
             <Text style={styles.headerButtonNewTransaction}>
               Nova transação
             </Text>
@@ -78,11 +82,25 @@ export function Home() {
       </View>
 
       <ListTransations data={transactions.getList} />
+      <View style={{ flex: 1, borderRadius: 10 }}>
+        <Modal
+          isVisible={isOpen}
+          onSwipeComplete={() => setOpen(!isOpen)}
+          swipeDirection="down"
+          style={{ justifyContent: "flex-end", margin: 0, borderRadius: 10 }}
+        >
+          <CreateTransactionForm setLoading={setLoading}  onClose={() => setOpen(!isOpen)} />
+        </Modal>
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  contentContainer: {
+    flex: 1,
+    alignItems: "center",
+  },
   container: {
     flex: 1,
     backgroundColor: "#F0F2F5",
@@ -148,7 +166,7 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
   },
   countText: {
-    fontSize: 20,
+    fontSize: 14,
     fontWeight: "500",
     marginBottom: 20,
     color: "#969CB2",
