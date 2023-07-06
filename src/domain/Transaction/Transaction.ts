@@ -1,4 +1,10 @@
-import { ITransatcion, ListType, CreateType, DeleteType } from "./ITransatcion";
+import {
+  ITransatcion,
+  ListType,
+  CreateType,
+  DeleteType,
+  UpdateType,
+} from "./ITransatcion";
 import { TransactionDataType } from "../../entity/Transaction/TransactionEntity";
 import { FactoryTransactionEntity } from "../../entity/Transaction/FactoryTransactionEntity";
 
@@ -9,29 +15,29 @@ export class Transaction implements ITransatcion {
     private readonly getListApi: ListType,
     private readonly createTransaction: CreateType,
     private readonly deleteTransaction: DeleteType,
+    private readonly updateTransaction: UpdateType
   ) {}
 
-  format(transaction: TransactionDataType) {
+  format = (transaction: TransactionDataType) => {
+    const { id, title, amount, type, category, date } = transaction;
     return {
-      id: transaction.id,
-      title: transaction.title,
-      amount: transaction.amount,
-      type: transaction.type,
-      category: transaction.category,
-      date: new Date(transaction.date),
+      id,
+      title,
+      amount,
+      type,
+      category,
+      date: new Date(date),
     };
-  }
+  };
 
-  async list() {
+  list = async () => {
     const listTransaction = await this.getListApi();
-    const listTransactionFormated = listTransaction.map((transaction) =>
-      this.format(transaction)
-    );
+    const listTransactionFormated = listTransaction.map(this.format);
     this.listTransaction = listTransactionFormated;
     return listTransactionFormated;
-  }
+  };
 
-  async create(transaction: TransactionDataType) {
+  create = async (transaction: TransactionDataType) => {
     const valueTransaction = new FactoryTransactionEntity(
       transaction.id,
       transaction.title,
@@ -41,24 +47,36 @@ export class Transaction implements ITransatcion {
       transaction.date
     ).create();
     const newTransaction = valueTransaction.create();
-    // todo return error (or not?)
-    if (!Object.keys(newTransaction).length){
+    if (!Object.keys(newTransaction).length) {
       throw new Error("Transaction not created");
     }
-
     await this.createTransaction(newTransaction);
-  }
+  };
 
-  async delete(id: string) {
+  delete = async (id: string) => {
     if (!id) {
       throw new Error("Id not found");
     }
     await this.deleteTransaction(id);
-  }
+  };
 
-  get getList() {
-    return this.listTransaction;
-  }
+  update = async (transaction: TransactionDataType) => {
+    const valueTransaction = new FactoryTransactionEntity(
+      transaction.id,
+      transaction.title,
+      transaction.amount,
+      transaction.type,
+      transaction.category,
+      transaction.date
+    ).create();
+    const editTransaction = valueTransaction.create();
+    if (!Object.keys(editTransaction).length) {
+      throw new Error("Transaction not updated");
+    }
+    await this.updateTransaction(editTransaction);
+  };
+
+  getList = () => this.listTransaction;
 
   get count() {
     return this.listTransaction.length;
