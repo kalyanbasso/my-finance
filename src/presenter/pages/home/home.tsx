@@ -6,23 +6,30 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
+  FlatList,
 } from "react-native";
 
 import { Cards } from "../../components/cards";
-import { ListTransations } from "../../components/listTransaction";
 import { useState, useEffect } from "react";
+import { MiniCard } from "../../components/miniCard";
 
 import base from "../../../services/base";
 import { FactoryCards } from "../../../domain/Cards/FactoryCards";
 import { FactoryTransaction } from "../../../domain/Transaction/FactoryTransaction";
 import Modal from "react-native-modal";
 import { CreateTransactionForm } from "../../form/createTransaction/createTransactionForm";
+import { EditTransactionForm } from "../../form/editTransaction/editTransactionForm";
+import { TransactionDataType } from "../../../entity/Transaction/TransactionEntity";
 
 export function Home() {
   const [cards] = useState(new FactoryCards().execute());
   const [transactions] = useState(new FactoryTransaction().execute());
   const [loading, setLoading] = useState(false);
   const [isOpen, setOpen] = useState(false);
+  const [isEditOpen, setEditOpen] = useState(false);
+  const [transactionSelected, setTransactionSelected] = useState(
+    {} as TransactionDataType
+  );
 
   useEffect(() => {
     async function loadTransactions() {
@@ -40,19 +47,10 @@ export function Home() {
   }, []);
 
 
-  // async function handleNewTransaction() {
-  //   setLoading(true);
-  //   try {
-  //     await base();
-  //     await transactions.list();
-  //     await cards.getCards();
-  //   } catch (error) {
-  //     console.error("handleNewTransaction");
-  //     // throw new Error("handleNewTransaction: ", error as Error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }
+  const openEditModal = (item: TransactionDataType) => {
+    setTransactionSelected(item);
+    setEditOpen(true);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -81,7 +79,22 @@ export function Home() {
         <Text style={styles.countText}>{transactions.count} itens</Text>
       </View>
 
-      <ListTransations data={transactions.getList} />
+      <FlatList
+        data={transactions.getList()}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => openEditModal(item)}>
+            <MiniCard
+              title={item.title}
+              amount={item.amount}
+              category={item.category}
+              date={item.date}
+            />
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item) => item.id + item.title}
+        style={styles.scrollView}
+      />
+
       <View style={{ flex: 1, borderRadius: 10 }}>
         <Modal
           isVisible={isOpen}
@@ -89,7 +102,25 @@ export function Home() {
           swipeDirection="down"
           style={{ justifyContent: "flex-end", margin: 0, borderRadius: 10 }}
         >
-          <CreateTransactionForm setLoading={setLoading}  onClose={() => setOpen(!isOpen)} />
+          <CreateTransactionForm
+            setLoading={setLoading}
+            onClose={() => setOpen(!isOpen)}
+          />
+        </Modal>
+      </View>
+
+      <View style={{ flex: 1, borderRadius: 10 }}>
+        <Modal
+          isVisible={isEditOpen}
+          onSwipeComplete={() => setEditOpen(!isEditOpen)}
+          swipeDirection="down"
+          style={{ justifyContent: "flex-end", margin: 0, borderRadius: 10 }}
+        >
+          <EditTransactionForm
+            setLoading={setLoading}
+            onClose={() => setEditOpen(!isEditOpen)}
+            transaction={transactionSelected}
+          />
         </Modal>
       </View>
     </SafeAreaView>
@@ -97,6 +128,10 @@ export function Home() {
 }
 
 const styles = StyleSheet.create({
+  scrollView: {
+    paddingHorizontal: 20,
+    height: 600,
+  },
   contentContainer: {
     flex: 1,
     alignItems: "center",

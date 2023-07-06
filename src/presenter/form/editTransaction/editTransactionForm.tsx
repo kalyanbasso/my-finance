@@ -8,19 +8,24 @@ import {
   Image,
 } from "react-native";
 import { FactoryTransaction } from "../../../domain/Transaction/FactoryTransaction";
-import { TransactionType } from "../../../entity/Transaction/TransactionEntity";
+import {
+  TransactionDataType,
+  TransactionType,
+} from "../../../entity/Transaction/TransactionEntity";
 
-export function CreateTransactionForm({
+export function EditTransactionForm({
   onClose,
   setLoading,
+  transaction,
 }: {
   onClose: () => void;
   setLoading: (loading: boolean) => void;
+  transaction: TransactionDataType;
 }) {
-  const [nome, setNome] = useState("");
-  const [preco, setPreco] = useState("");
-  const [type, setType] = useState<TransactionType | undefined>(undefined);
-  const [category, setCategory] = useState("");
+  const [nome, setNome] = useState(transaction.title);
+  const [preco, setPreco] = useState(transaction.amount.toString());
+  const [type, setType] = useState<TransactionType>(transaction.type);
+  const [category, setCategory] = useState(transaction.category);
   const factoryTransaction = new FactoryTransaction().execute();
 
   const handleTypeSelection = (selectedType: TransactionType) => {
@@ -33,60 +38,35 @@ export function CreateTransactionForm({
     setPreco(priceFormatted);
   };
 
-  const handleCreateTransaction = async () => {
+  const handleEditTransaction = async () => {
     setLoading(true);
-
-    const validate = validateForm();
-
-    if (!validate) {
-      return;
-    }
-
-    if (!type) {
-      alert("Tipo é obrigatório");
-      return;
-    }
-
-    await factoryTransaction.create({
-      id: undefined,
+    await factoryTransaction.update({
+      id: transaction.id,
       title: nome,
       amount: Number(preco),
       type,
       category,
-      date: new Date(),
+      date: transaction.date,
     });
     setLoading(false);
     onClose();
   };
 
-  const validateForm = () => {
-    if (!nome) {
-      alert("Nome é obrigatório");
-      return false;
+  const handleDeleteTransaction = async () => {
+    setLoading(true);
+    const id = transaction.id;
+    if (!id) {
+      throw new Error("Transaction id is undefined");
     }
-
-    if (!preco) {
-      alert("Preço é obrigatório");
-      return false;
-    }
-
-    if (!type) {
-      alert("Tipo é obrigatório");
-      return false;
-    }
-
-    if (!category) {
-      alert("Categoria é obrigatório");
-      return false;
-    }
-
-    return true;
+    await factoryTransaction.delete(id);
+    setLoading(false);
+    onClose();
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Cadastrar transacao</Text>
+        <Text style={styles.title}>Editar transacao</Text>
         <TouchableOpacity onPress={() => onClose()}>
           <Image
             style={styles.closeButton}
@@ -144,8 +124,15 @@ export function CreateTransactionForm({
         onChangeText={setCategory}
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleCreateTransaction}>
-        <Text style={styles.buttonText}>Cadastrar</Text>
+      <TouchableOpacity style={styles.button} onPress={handleEditTransaction}>
+        <Text style={styles.buttonText}>Salvar</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.button, styles.deleteButton]}
+        onPress={handleDeleteTransaction}
+      >
+        <Text style={styles.buttonText}>Excluir</Text>
       </TouchableOpacity>
     </View>
   );
@@ -229,5 +216,9 @@ const styles = StyleSheet.create({
   closeButton: {
     width: 40,
     height: 40,
+  },
+  deleteButton: {
+    backgroundColor: "#E52E4D",
+    marginTop: 10,
   },
 });

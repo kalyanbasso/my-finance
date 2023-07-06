@@ -14,7 +14,7 @@ export function ListTransations({data}: {data: TransactionDataType[]}) {
           category={item.category}
         />
       )}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.id + item.title}
       style={styles.scrollView}
     />
   );
