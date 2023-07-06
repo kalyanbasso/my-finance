@@ -1,4 +1,4 @@
-import { ITransatcion, ListType, CreateType } from "./ITransatcion";
+import { ITransatcion, ListType, CreateType, DeleteType } from "./ITransatcion";
 import { TransactionDataType } from "../../entity/Transaction/TransactionEntity";
 import { FactoryTransactionEntity } from "../../entity/Transaction/FactoryTransactionEntity";
 
@@ -7,7 +7,8 @@ export class Transaction implements ITransatcion {
 
   constructor(
     private readonly getListApi: ListType,
-    private readonly createTransaction: CreateType
+    private readonly createTransaction: CreateType,
+    private readonly deleteTransaction: DeleteType,
   ) {}
 
   format(transaction: TransactionDataType) {
@@ -46,6 +47,13 @@ export class Transaction implements ITransatcion {
     }
 
     await this.createTransaction(newTransaction);
+  }
+
+  async delete(id: string) {
+    if (!id) {
+      throw new Error("Id not found");
+    }
+    await this.deleteTransaction(id);
   }
 
   get getList() {
