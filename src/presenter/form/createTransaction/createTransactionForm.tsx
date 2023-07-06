@@ -10,6 +10,14 @@ import {
 import { FactoryTransaction } from "../../../domain/Transaction/FactoryTransaction";
 import { TransactionType } from "../../../entity/Transaction/TransactionEntity";
 
+export type FormTypes = {
+  title: string;
+  amount: number;
+  category: string;
+  type: TransactionType;
+}
+
+
 export function CreateTransactionForm({
   onClose,
   setLoading,
