@@ -1,7 +1,7 @@
 import { AdapterZodTransaction } from "./AdapterZodTransaction";
 
 export type TransactionType = "income" | "outcome";
-export type TransactionDataType = {
+export type TransactionDataTypes = {
   id: string | undefined;
   title: string;
   amount: number;
@@ -33,8 +33,8 @@ export class TransactionEntity {
     return result;
   }
 
-  create(): TransactionDataType {
-    if (!this.validate()) return {} as TransactionDataType;
+  create(): TransactionDataTypes {
+    if (!this.validate()) return {} as TransactionDataTypes;
     return {
       id: this.id,
       title: this.title,

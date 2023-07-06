@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { FactoryTransaction } from "../../../domain/Transaction/FactoryTransaction";
 import {
-  TransactionDataType,
+  TransactionDataTypes,
   TransactionType,
 } from "../../../entity/Transaction/TransactionEntity";
 
@@ -20,7 +20,7 @@ export function EditTransactionForm({
 }: {
   onClose: () => void;
   setLoading: (loading: boolean) => void;
-  transaction: TransactionDataType;
+  transaction: TransactionDataTypes;
 }) {
   const [nome, setNome] = useState(transaction.title);
   const [preco, setPreco] = useState(transaction.amount.toString());

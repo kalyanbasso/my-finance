@@ -1,10 +1,10 @@
-import { TransactionDataType } from "../../../../entity/Transaction/TransactionEntity";
+import { TransactionDataTypes } from "../../../../entity/Transaction/TransactionEntity";
 import { HttpClient } from "../../../../infra/HttpClient";
 
 export async function getListTransactions() {
   try {
     const httpClient = new HttpClient();
-    const response = await httpClient.get<TransactionDataType[]>(
+    const response = await httpClient.get<TransactionDataTypes[]>(
       "/transaction"
     );
     return response;

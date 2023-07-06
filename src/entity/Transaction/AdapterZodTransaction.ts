@@ -1,5 +1,5 @@
 import zod from "zod";
-import { TransactionDataType} from "./TransactionEntity"
+import { TransactionDataTypes} from "./TransactionEntity"
 
 export class AdapterZodTransaction {
   private readonly schema = zod.object({
@@ -16,7 +16,7 @@ export class AdapterZodTransaction {
     return false;
   }
 
-  public validateNewTransaction(data: TransactionDataType): boolean {
+  public validateNewTransaction(data: TransactionDataTypes): boolean {
     return this.execute(data);
   }
 

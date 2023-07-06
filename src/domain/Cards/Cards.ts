@@ -1,4 +1,4 @@
-import { TransactionDataType } from "../../entity/Transaction/TransactionEntity";
+import { TransactionDataTypes } from "../../entity/Transaction/TransactionEntity";
 import { ICards, CardsApiDataType } from "./ICards";
 
 export class Cards implements ICards {
@@ -14,7 +14,7 @@ export class Cards implements ICards {
 
   constructor(private readonly cardsApi: CardsApiDataType) {}
 
-  private updateTotalIncoming(transaction: TransactionDataType) {
+  private updateTotalIncoming(transaction: TransactionDataTypes) {
     this.totalIncoming += +transaction.amount;
     if (!this.lastIncomingDateTransaction) {
       this.lastIncomingDateTransaction = new Date(transaction.date);
@@ -23,7 +23,7 @@ export class Cards implements ICards {
     }
   }
 
-  private updateTotalOutcoming(transaction: TransactionDataType) {
+  private updateTotalOutcoming(transaction: TransactionDataTypes) {
     this.totalOutcoming += +transaction.amount;
     if (!this.lastOutcomingDateTransaction) {
       this.lastOutcomingDateTransaction = new Date(transaction.date);
@@ -32,7 +32,7 @@ export class Cards implements ICards {
     }
   }
 
-  private updateFirstAndLastDateTransaction(transaction: TransactionDataType) {
+  private updateFirstAndLastDateTransaction(transaction: TransactionDataTypes) {
     if (!this.firstDateTransaction) {
       this.firstDateTransaction = new Date(transaction.date);
     } else if (this.firstDateTransaction > new Date(transaction.date)) {
@@ -46,8 +46,8 @@ export class Cards implements ICards {
     }
   }
 
-  private formatCards(transactions: TransactionDataType[]) {
-    transactions.forEach((transaction: TransactionDataType) => {
+  private formatCards(transactions: TransactionDataTypes[]) {
+    transactions.forEach((transaction: TransactionDataTypes) => {
       if (transaction.type === "income") {
         this.updateTotalIncoming(transaction);
       } else {

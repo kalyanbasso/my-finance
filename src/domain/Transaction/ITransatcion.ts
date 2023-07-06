@@ -1,19 +1,19 @@
-import { TransactionDataType } from "../../entity/Transaction/TransactionEntity";
+import { TransactionDataTypes } from "../../entity/Transaction/TransactionEntity";
 
-export type ListType = () => Promise<TransactionDataType[]>;
-export type CreateType = (transaction: TransactionDataType) => Promise<void>;
+export type ListType = () => Promise<TransactionDataTypes[]>;
+export type CreateType = (transaction: TransactionDataTypes) => Promise<void>;
 export type DeleteType = (id: string) => Promise<void>;
-export type UpdateType = (transaction: TransactionDataType) => Promise<void>;
+export type UpdateType = (transaction: TransactionDataTypes) => Promise<void>;
 
 export interface ITransatcion {
-  list: (getTransactionListApi: ListType) => Promise<TransactionDataType[]>;
+  list: (getTransactionListApi: ListType) => Promise<TransactionDataTypes[]>;
   create: (
-    transaction: TransactionDataType,
+    transaction: TransactionDataTypes,
     createTransactionApi: CreateType
   ) => Promise<void>;
   delete: (id: string, deleteTransactionApi: DeleteType) => Promise<void>;
   update: (
-    transaction: TransactionDataType,
+    transaction: TransactionDataTypes,
     updateTransactionApi: UpdateType
   ) => Promise<void>;
   getList: any;

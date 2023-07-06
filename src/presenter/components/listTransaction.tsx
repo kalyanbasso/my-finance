@@ -1,8 +1,8 @@
 import { StyleSheet, FlatList } from "react-native";
 import { MiniCard } from "./miniCard";
-import { TransactionDataType } from "../../entity/Transaction/TransactionEntity";
+import { TransactionDataTypes } from "../../entity/Transaction/TransactionEntity";
 
-export function ListTransations({data}: {data: TransactionDataType[]}) {
+export function ListTransations({data}: {data: TransactionDataTypes[]}) {
   return (
     <FlatList
       data={data}

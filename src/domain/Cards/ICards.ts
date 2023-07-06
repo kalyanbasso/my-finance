@@ -1,5 +1,5 @@
-import { TransactionDataType } from "../../entity/Transaction/TransactionEntity";
-export type CardsApiDataType = () => Promise<TransactionDataType[]>;
+import { TransactionDataTypes } from "../../entity/Transaction/TransactionEntity";
+export type CardsApiDataType = () => Promise<TransactionDataTypes[]>;
 
 export interface ICards {
     totalCards: {

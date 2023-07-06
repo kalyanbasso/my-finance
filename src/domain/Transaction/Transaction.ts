@@ -5,11 +5,11 @@ import {
   DeleteType,
   UpdateType,
 } from "./ITransatcion";
-import { TransactionDataType } from "../../entity/Transaction/TransactionEntity";
+import { TransactionDataTypes } from "../../entity/Transaction/TransactionEntity";
 import { FactoryTransactionEntity } from "../../entity/Transaction/FactoryTransactionEntity";
 
 export class Transaction implements ITransatcion {
-  private listTransaction: TransactionDataType[] = [];
+  private listTransaction: TransactionDataTypes[] = [];
 
   constructor(
     private readonly getListApi: ListType,
@@ -18,7 +18,7 @@ export class Transaction implements ITransatcion {
     private readonly updateTransaction: UpdateType
   ) {}
 
-  format = (transaction: TransactionDataType) => {
+  format = (transaction: TransactionDataTypes) => {
     const { id, title, amount, type, category, date } = transaction;
     return {
       id,
@@ -37,7 +37,7 @@ export class Transaction implements ITransatcion {
     return listTransactionFormated;
   };
 
-  create = async (transaction: TransactionDataType) => {
+  create = async (transaction: TransactionDataTypes) => {
     const valueTransaction = new FactoryTransactionEntity(
       transaction.id,
       transaction.title,
@@ -60,7 +60,7 @@ export class Transaction implements ITransatcion {
     await this.deleteTransaction(id);
   };
 
-  update = async (transaction: TransactionDataType) => {
+  update = async (transaction: TransactionDataTypes) => {
     const valueTransaction = new FactoryTransactionEntity(
       transaction.id,
       transaction.title,
