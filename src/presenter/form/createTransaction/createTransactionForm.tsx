@@ -102,7 +102,7 @@ export function CreateTransactionForm({
     <View style={styles.container}>
       <ScrollView>
         <View style={styles.header}>
-          <Text style={styles.title}>Cadastrar transacao</Text>
+          <Text style={styles.title}>Cadastrar transação</Text>
           <TouchableOpacity onPress={() => onClose()}>
             <Image
               style={styles.closeButton}
@@ -133,7 +133,7 @@ export function CreateTransactionForm({
           <TouchableOpacity
             style={[
               styles.typeButton,
-              type === "income" && styles.selectedTypeButton,
+              type === "income" && styles.selectedIncomeButton,
             ]}
             onPress={() => handleTypeSelection("income")}
           >
@@ -146,7 +146,7 @@ export function CreateTransactionForm({
           <TouchableOpacity
             style={[
               styles.typeButton,
-              type === "outcome" && styles.selectedTypeButton,
+              type === "outcome" && styles.selectedOutcomeButton,
             ]}
             onPress={() => handleTypeSelection("outcome")}
           >
@@ -237,8 +237,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: "48%",
   },
-  selectedTypeButton: {
+  selectedIncomeButton: {
     borderColor: "#33CC95",
+  },
+  selectedOutcomeButton: {
+    borderColor: "#E52E4D",
   },
   type: {
     fontSize: 16,

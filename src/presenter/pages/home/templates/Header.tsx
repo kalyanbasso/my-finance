@@ -11,7 +11,6 @@ export type HeaderTypes = {
 // importa o formulario (modalBottomSheet)
 
 export function HeaderUI({ submit }: HeaderTypes) {
-
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -62,8 +61,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    flex: 1,
     marginTop: 30,
+    width: "100%",
   },
   headerContainerLogo: {
     display: "flex",
