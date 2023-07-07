@@ -92,6 +92,7 @@ export function TransactionForm({
 
   const handleTypeSelection = (selectedType: TransactionType) => {
     setType(selectedType);
+    method.setValue("type", selectedType);
   };
 
   const handleAmount = (text: string) => {

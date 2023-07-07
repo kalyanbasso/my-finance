@@ -8,7 +8,7 @@ export default function formatTwoDates(
 
   const firstDateFormatted = new Intl.DateTimeFormat("pt-BR", {
     day: "2-digit",
-    month: firstDate?.getMonth() === lastDate?.getMonth() ? undefined : "long",
+    month: firstDate.getMonth() === lastDate.getMonth() ? undefined : "long",
   }).format(firstDate);
 
   const lastDateFormatted = new Intl.DateTimeFormat("pt-BR", {

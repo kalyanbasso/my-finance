@@ -18,7 +18,7 @@ export type HomeTemplateTypes = {
 export function HomeTemplateUI({
   header,
   cardsTransactions,
-  countItens = 0,
+  countItens,
   listTransactions,
 }: HomeTemplateTypes) {
   return (

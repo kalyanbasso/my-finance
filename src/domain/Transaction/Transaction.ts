@@ -49,18 +49,22 @@ export class Transaction implements ITransatcion {
     const newTransaction = valueTransaction.create();
     if (!Object.keys(newTransaction).length) {
       // throw new Error("Transaction not created");
+      console.error("Transaction not created")
+      return
     }
     await this.createTransaction(newTransaction);
   };
 
   delete = async (id: string) => {
     if (!id) {
-      throw new Error("Id not found");
+      console.log("Id not found");
+      return
     }
     await this.deleteTransaction(id);
   };
 
   update = async (transaction: TransactionDataTypes) => {
+    //todo arrumar a factory
     const valueTransaction = new FactoryTransactionEntity(
       transaction.id,
       transaction.title,
@@ -71,7 +75,8 @@ export class Transaction implements ITransatcion {
     ).create();
     const editTransaction = valueTransaction.create();
     if (!Object.keys(editTransaction).length) {
-      throw new Error("Transaction not updated");
+      console.error("Transaction not updated");
+      return
     }
     await this.updateTransaction(editTransaction);
   };

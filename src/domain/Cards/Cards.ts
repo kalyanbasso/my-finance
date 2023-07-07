@@ -49,7 +49,7 @@ export class Cards implements ICards {
     }
   }
 
-  private formatCards(transactions: TransactionDataTypes[]) {
+  public formatCards(transactions: TransactionDataTypes[]) {
     transactions.forEach((transaction: TransactionDataTypes) => {
       if (transaction.type === "income") {
         this.updateTotalIncoming(transaction);
@@ -81,21 +81,25 @@ export class Cards implements ICards {
     this.formatCards(response);
   }
 
+  // pra nao precisar iniciar o income como uma funcao e acessala como uma variavel
   get income(): cardsType {
+    const text = this.lastIncomingDateTransaction ? `Ultima entrada em ${formatLongDate(
+      this.lastIncomingDateTransaction
+    )}` : 'Nenhuma entrada cadastrada';
+
     return {
       value: formatCurrencyPtBr(this.totalIncoming),
-      text: `Ultima entrada em ${formatLongDate(
-        this.lastIncomingDateTransaction
-      )}`,
+      text
     };
   }
 
   get outcome(): cardsType {
+    const text = this.lastOutcomingDateTransaction ? `Ultima saída em ${formatLongDate(
+      this.lastOutcomingDateTransaction
+    )}` : 'Nenhuma saída cadastrada';
     return {
       value: formatCurrencyPtBr(this.totalOutcoming),
-      text: `Ultima saída em ${formatLongDate(
-        this.lastOutcomingDateTransaction
-      )}`,
+      text
     };
   }
 
