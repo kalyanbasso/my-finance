@@ -1,25 +1,45 @@
-import { Text, View } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
+
+import {
+  CardIncoming,
+  CardOutcoming,
+  CardTotal,
+} from "../../../components/Card/Card";
 
 export type CardsTransactionsTypes = {
   income: {
     value: number;
-    lastTransaction: string;
+    text: string;
   };
   outcome: {
     value: number;
-    lastTransaction: string;
+    text: string;
   };
   total: {
     value: number;
-    rangeOfDates: string;
+    text: string;
   };
   loading: boolean;
 };
 
-export function CardsTransationsUI({}: CardsTransactionsTypes) {
+export function CardsTransationsUI({
+  income,
+  outcome,
+  total,
+}: CardsTransactionsTypes) {
   return (
-    <View>
-      <Text>asdasd</Text>
-    </View>
+    <ScrollView horizontal style={styles.containerCards}>
+      <CardIncoming {...income} />
+      <CardOutcoming {...outcome} />
+      <CardTotal {...total} />
+    </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  containerCards: {
+    marginTop: -90,
+    marginLeft: 10,
+    height: 150,
+  },
+});

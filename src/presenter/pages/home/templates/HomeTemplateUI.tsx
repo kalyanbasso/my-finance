@@ -1,5 +1,6 @@
 import React from "react";
-import { SafeAreaView, View } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaView, View, Text, StyleSheet } from "react-native";
 import {
   CardsTransactionsTypes,
   CardsTransationsUI,
@@ -20,11 +21,28 @@ export function HomeTemplateUI({
 }: HomeTemplateTypes) {
   return (
     <SafeAreaView>
-      <HeaderUI {...header}/>
-      <View>
-        <CardsTransationsUI {...cardsTransactions} />
-        <ListTransactionsUI {...listTransactions}/>
+      <StatusBar style="auto" />
+      <HeaderUI {...header} />
+      <CardsTransationsUI {...cardsTransactions} />
+      <View style={styles.countItens}>
+        <Text style={styles.countText}>12 itens</Text>
       </View>
+      <ListTransactionsUI {...listTransactions} />
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  // todo verificar css
+  countItens: {
+    paddingHorizontal: 20,
+    marginTop: 10,
+    marginLeft: "auto",
+  },
+  countText: {
+    fontSize: 14,
+    fontWeight: "500",
+    marginBottom: 20,
+    color: "#969CB2",
+  },
+});

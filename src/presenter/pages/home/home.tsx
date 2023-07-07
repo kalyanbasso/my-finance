@@ -11,6 +11,7 @@ export function Home() {
   const [cards] = useState(new FactoryCards().execute());
 
   const listTransactions = useCallback(async () => {
+    console.log("listTransactions");
     setLoading(true);
     await cards.getCards();
     await transaction.list();
@@ -19,30 +20,33 @@ export function Home() {
 
   const handleCreateTransaction = async (data: FormTypes) => {
     setLoading(true);
-    const transactionData = {
-      title: data.title,
-      amount: data.amount,
-      type: data.type,
-      category: data.category,
-      date: new Date(),
-    };
+    console.log("handleCreateTransaction");
+    // const transactionData = {
+    //   title: data.title,
+    //   amount: data.amount,
+    //   type: data.type,
+    //   category: data.category,
+    //   date: new Date(),
+    // };
 
-    await transaction.create(transactionData as TransactionDataTypes);
-    await cards.getCards();
+    // await transaction.create(transactionData as TransactionDataTypes);
+    // await cards.getCards();
     setLoading(false);
   };
 
   const handleEditTransaction = async (data: TransactionDataTypes) => {
     setLoading(true);
-    await transaction.update(data);
-    await cards.getCards();
+    console.log("handleEditTransaction");
+    // await transaction.update(data);
+    // await cards.getCards();
     setLoading(false);
   };
 
   const handleDeleteTransaction = async (id: string) => {
     setLoading(true);
-    await transaction.delete(id);
-    await cards.getCards();
+    console.log("handleDeleteTransaction");
+    // await transaction.delete(id);
+    // await cards.getCards();
     setLoading(false);
   };
 
@@ -57,15 +61,15 @@ export function Home() {
     cardsTransactions: {
       income: {
         value: 123,
-        lastTransaction: "asdasd",
+        text: "asdasd",
       },
       outcome: {
         value: 123,
-        lastTransaction: "asdasd",
+        text: "asdasd",
       },
       total: {
         value: 123,
-        rangeOfDates: "asdasd",
+        text: "asdasd",
       },
       loading,
     },

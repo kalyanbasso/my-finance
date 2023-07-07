@@ -1,5 +1,6 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { TransactionDataTypes } from "../../../../entity/Transaction/TransactionEntity";
+import { ListTransactions } from "../../../components/ListTransactions/ListTransactions";
 
 export type ListTransactionsTypes = {
   list: TransactionDataTypes[];
@@ -16,7 +17,10 @@ export function ListTransactionsUI({
 }: ListTransactionsTypes) {
   return (
     <View>
-      <Text>asdasd</Text>
+      {loading && <Text>Carregando...</Text>}
+      <ListTransactions list={list} delete={deleteTransaction} edit={edit} />
     </View>
   );
 }
+
+const styles = StyleSheet.create({});
