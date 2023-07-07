@@ -32,7 +32,6 @@ export function CreateTransactionForm({
   const factoryTransaction = new FactoryTransaction().execute();
 
   const handleTypeSelection = (selectedType: TransactionType) => {
-    console.log(selectedType);
     setType(selectedType);
   };
 

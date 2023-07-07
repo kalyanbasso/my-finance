@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import { FactoryTransaction } from "../../../domain/Transaction/FactoryTransaction";
 import {
   TransactionDataTypes,
   TransactionType,
@@ -15,21 +14,21 @@ import {
 
 export function EditTransactionForm({
   onClose,
-  setLoading,
   transaction,
+  submit,
+  deleteTransaction,
 }: {
   onClose: () => void;
-  setLoading: (loading: boolean) => void;
   transaction: TransactionDataTypes;
+  submit: (data: TransactionDataTypes) => void;
+  deleteTransaction: (id: string) => void;
 }) {
-  const [nome, setNome] = useState(transaction.title);
-  const [preco, setPreco] = useState(transaction.amount.toString());
+  const [title, setNome] = useState(transaction.title);
+  const [amount, setPreco] = useState(transaction.amount.toString());
   const [type, setType] = useState<TransactionType>(transaction.type);
   const [category, setCategory] = useState(transaction.category);
-  const factoryTransaction = new FactoryTransaction().execute();
 
   const handleTypeSelection = (selectedType: TransactionType) => {
-    console.log(selectedType);
     setType(selectedType);
   };
 
@@ -39,34 +38,31 @@ export function EditTransactionForm({
   };
 
   const handleEditTransaction = async () => {
-    setLoading(true);
-    await factoryTransaction.update({
+    const obj = {
       id: transaction.id,
-      title: nome,
-      amount: Number(preco),
-      type,
-      category,
+      title: title,
+      amount: Number(amount),
+      type: type,
+      category: category,
       date: transaction.date,
-    });
-    setLoading(false);
+    };
+    submit(obj);
     onClose();
   };
 
   const handleDeleteTransaction = async () => {
-    setLoading(true);
     const id = transaction.id;
     if (!id) {
       throw new Error("Transaction id is undefined");
     }
-    await factoryTransaction.delete(id);
-    setLoading(false);
+    deleteTransaction(id);
     onClose();
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Editar transacao</Text>
+        <Text style={styles.title}>Editar transação</Text>
         <TouchableOpacity onPress={() => onClose()}>
           <Image
             style={styles.closeButton}
@@ -78,21 +74,21 @@ export function EditTransactionForm({
       <TextInput
         style={styles.input}
         placeholder="Nome"
-        value={nome}
+        value={title}
         onChangeText={setNome}
       />
       <TextInput
         style={styles.input}
         keyboardType="numeric"
         placeholder="Preco"
-        value={preco}
+        value={amount}
         onChangeText={handlePrice}
       />
       <View style={styles.typeContainer}>
         <TouchableOpacity
           style={[
             styles.typeButton,
-            type === "income" && styles.selectedTypeButton,
+            type === "income" && styles.selectedIncomeButton,
           ]}
           onPress={() => handleTypeSelection("income")}
         >
@@ -105,7 +101,7 @@ export function EditTransactionForm({
         <TouchableOpacity
           style={[
             styles.typeButton,
-            type === "outcome" && styles.selectedTypeButton,
+            type === "outcome" && styles.selectedOutcomeButton,
           ]}
           onPress={() => handleTypeSelection("outcome")}
         >
@@ -200,8 +196,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: "48%",
   },
-  selectedTypeButton: {
+  selectedIncomeButton: {
     borderColor: "#33CC95",
+  },
+  selectedOutcomeButton: {
+    borderColor: "#E52E4D",
   },
   type: {
     fontSize: 16,

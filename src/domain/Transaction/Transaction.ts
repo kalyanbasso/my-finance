@@ -76,7 +76,9 @@ export class Transaction implements ITransatcion {
     await this.updateTransaction(editTransaction);
   };
 
-  getList = () => this.listTransaction;
+  get getList() {
+    return this.listTransaction
+  };
 
   get count() {
     return this.listTransaction.length;

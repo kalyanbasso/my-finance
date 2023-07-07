@@ -1,5 +1,15 @@
-import { FlatList, View, Text, Image, StyleSheet } from "react-native";
+import {
+  FlatList,
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import { TransactionDataTypes } from "../../../entity/Transaction/TransactionEntity";
+import formatShortDate from "../../../utils/formatShortDate";
+import { useMemo, useState } from "react";
+import { EditTransactionForm } from "../../form/editTransaction/editTransactionForm";
+import Modal from "react-native-modal";
 
 type ListTransactionsTypes = {
   list: TransactionDataTypes[];
@@ -7,74 +17,31 @@ type ListTransactionsTypes = {
   edit: (data: TransactionDataTypes) => void;
 };
 
-type Transaction = {
-  id: string;
-  title: string;
-  value: number;
-  type: string;
-  category: string;
-  date: string;
-};
-
-const data = [
-  {
-    id: "1",
-    title: "Almoço",
-    value: 20,
-    type: "outcome",
-    category: "Alimentação",
-    date: "2021-03-20",
-  },
-  {
-    id: "2",
-    title: "Salario",
-    value: 2000,
-    type: "income",
-    category: "Salario",
-    date: "2021-04-20",
-  },
-  {
-    id: "3",
-    title: "Almoço",
-    value: 20,
-    type: "outcome",
-    category: "Alimentação",
-    date: "2021-03-20",
-  },
-  {
-    id: "4",
-    title: "Salario",
-    value: 2000,
-    type: "income",
-    category: "Salario",
-    date: "2021-04-20",
-  },
-  {
-    id: "5",
-    title: "Almoço",
-    value: 20,
-    type: "outcome",
-    category: "Alimentação",
-    date: "2021-03-20",
-  },
-];
-
 // todo transformar income e outcome em constantes
 
-const transaction = ({ title, value, type, category, date }: Transaction) => {
+const transaction = (
+  item: TransactionDataTypes,
+  openEditModal: (item: TransactionDataTypes) => void
+) => {
+  const { title, amount, type, category, date } = item;
+
+  const dateFormated = formatShortDate(date);
+
   return (
-    <View style={styles.miniCard}>
-      <Text style={styles.miniCardTitle}>{title}</Text>
-      {type === "income" ? (
-        <Text style={styles.miniCardAmountNegative}>{value}</Text>
-      ) : (
-        <Text style={styles.miniCardAmountPositive}>{value}</Text>
-      )}
-      <View style={styles.miniCardBottom}>
-        <Text style={styles.miniCardCategory}>{category}</Text>
-        <Text style={styles.miniCardDate}>{date}</Text>
+    <TouchableOpacity onPress={() => openEditModal(item)}>
+      <View style={styles.miniCard}>
+        <Text style={styles.miniCardTitle}>{title}</Text>
+        {type === "outcome" ? (
+          <Text style={styles.miniCardAmountNegative}>{amount}</Text>
+        ) : (
+          <Text style={styles.miniCardAmountPositive}>{amount}</Text>
+        )}
+        <View style={styles.miniCardBottom}>
+          <Text style={styles.miniCardCategory}>{category}</Text>
+          <Text style={styles.miniCardDate}>{dateFormated}</Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -85,13 +52,49 @@ export function ListTransactions({
 }: ListTransactionsTypes) {
   // todo aqui vai ter o form de editar tmb
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedTransaction, setTransaction] = useState<TransactionDataTypes>({
+    id: "",
+    title: "",
+    amount: 0,
+    type: "income",
+    category: "",
+    date: new Date(),
+  });
+
+  const openEditModal = (item: TransactionDataTypes) => {
+    setIsOpen(true);
+    setTransaction(item);
+  };
+
+  const updatedList = useMemo(() => {
+    return list;
+  }, [deleteTransaction, edit, list]);
+
   return (
-    <FlatList
-      data={data}
-      renderItem={({ item }) => transaction(item)}
-      keyExtractor={(item) => item.id}
-      style={styles.scrollView}
-    />
+    <View>
+      <FlatList
+        data={updatedList}
+        renderItem={({ item }) => transaction(item, openEditModal)}
+        keyExtractor={(item) => item.id + item.title}
+        style={styles.scrollView}
+      />
+      <View style={{ flex: 1, borderRadius: 10 }}>
+        <Modal
+          isVisible={isOpen}
+          onSwipeComplete={() => setIsOpen(!isOpen)}
+          swipeDirection="down"
+          style={{ justifyContent: "flex-end", margin: 0, borderRadius: 10 }}
+        >
+          <EditTransactionForm
+            onClose={() => setIsOpen(!isOpen)}
+            transaction={selectedTransaction}
+            submit={edit}
+            deleteTransaction={deleteTransaction}
+          />
+        </Modal>
+      </View>
+    </View>
   );
 }
 

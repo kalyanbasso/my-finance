@@ -11,7 +11,6 @@ export function Home() {
   const [cards] = useState(new FactoryCards().execute());
 
   const listTransactions = useCallback(async () => {
-    console.log("listTransactions");
     setLoading(true);
     await cards.getCards();
     await transaction.list();
@@ -20,33 +19,33 @@ export function Home() {
 
   const handleCreateTransaction = async (data: FormTypes) => {
     setLoading(true);
-    console.log("handleCreateTransaction");
-    // const transactionData = {
-    //   title: data.title,
-    //   amount: data.amount,
-    //   type: data.type,
-    //   category: data.category,
-    //   date: new Date(),
-    // };
+    const transactionData = {
+      title: data.title,
+      amount: data.amount,
+      type: data.type,
+      category: data.category,
+      date: new Date(),
+    };
 
-    // await transaction.create(transactionData as TransactionDataTypes);
-    // await cards.getCards();
+    await transaction.create(transactionData as TransactionDataTypes);
+    await cards.getCards();
+    await transaction.list();
     setLoading(false);
   };
 
   const handleEditTransaction = async (data: TransactionDataTypes) => {
     setLoading(true);
-    console.log("handleEditTransaction");
-    // await transaction.update(data);
-    // await cards.getCards();
+    await transaction.update(data);
+    await cards.getCards();
+    await transaction.list();
     setLoading(false);
   };
 
   const handleDeleteTransaction = async (id: string) => {
     setLoading(true);
-    console.log("handleDeleteTransaction");
-    // await transaction.delete(id);
-    // await cards.getCards();
+    await transaction.delete(id);
+    await cards.getCards();
+    await transaction.list();
     setLoading(false);
   };
 
@@ -59,22 +58,14 @@ export function Home() {
       submit: handleCreateTransaction,
     },
     cardsTransactions: {
-      income: {
-        value: 123,
-        text: "asdasd",
-      },
-      outcome: {
-        value: 123,
-        text: "asdasd",
-      },
-      total: {
-        value: 123,
-        text: "asdasd",
-      },
+      income: cards.income,
+      outcome: cards.outcome,
+      total: cards.totalBalance,
       loading,
     },
+    countItens: transaction.count,
     listTransactions: {
-      list: transaction.getList(), // todo corrigir
+      list: transaction.getList,
       delete: handleDeleteTransaction,
       edit: handleEditTransaction,
       loading,

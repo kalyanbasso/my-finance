@@ -1,16 +1,18 @@
 import { TransactionDataTypes } from "../../entity/Transaction/TransactionEntity";
-import { ICards, CardsApiDataType } from "./ICards";
+import formatLongDate from "../../utils/formatLongDatePtBr";
+import formatTwoDates from "../../utils/formatTwoDates";
+import { ICards, cardsType, CardsApiDataType } from "./ICards";
 
 export class Cards implements ICards {
   private totalIncoming: number = 0;
   private totalOutcoming: number = 0;
   private total: number = 0;
 
-  public lastIncomingDateTransaction?: Date;
-  public lastOutcomingDateTransaction?: Date;
+  private lastIncomingDateTransaction?: Date;
+  private lastOutcomingDateTransaction?: Date;
 
-  public firstDateTransaction?: Date;
-  public lastDateTransaction?: Date;
+  private firstDateTransaction?: Date;
+  private lastDateTransaction?: Date;
 
   constructor(private readonly cardsApi: CardsApiDataType) {}
 
@@ -74,39 +76,32 @@ export class Cards implements ICards {
     this.resetCards();
 
     const response = await this.cardsApi();
-    if (!response) {
-      this.totalIncoming = 0;
-      this.totalOutcoming = 0;
-      this.total = 0;
-      return;
-    }
-
+    if (!response) return;
     this.formatCards(response);
   }
 
-  get totalCards() {
+  get income(): cardsType {
     return {
-      totalIncoming: this.totalIncoming,
-      totalOutcoming: this.totalOutcoming,
-      total: this.total,
+      value: this.totalIncoming,
+      text: `Ultima entrada em ${formatLongDate(
+        this.lastIncomingDateTransaction
+      )}`,
     };
   }
 
-  get lastIncomeTransaction(): Date | undefined {
-    return this.lastIncomingDateTransaction;
-  }
-
-  get lastOutcomingTransaction(): Date | undefined {
-    return this.lastOutcomingDateTransaction;
-  }
-
-  get rangeOfDatesTransactions(): {
-    firstDateTransaction?: Date;
-    lastDateTransaction?: Date;
-  } {
+  get outcome(): cardsType {
     return {
-      firstDateTransaction: this.firstDateTransaction,
-      lastDateTransaction: this.lastDateTransaction,
+      value: this.totalOutcoming,
+      text: `Ultima saída em ${formatLongDate(
+        this.lastOutcomingDateTransaction
+      )}`,
+    };
+  }
+
+  get totalBalance(): cardsType {
+    return {
+      value: this.total,
+      text: formatTwoDates(this.firstDateTransaction, this.lastDateTransaction),
     };
   }
 }

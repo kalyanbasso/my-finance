@@ -11,12 +11,14 @@ import { ListTransactionsUI, ListTransactionsTypes } from "./ListTransactions";
 export type HomeTemplateTypes = {
   header: HeaderTypes;
   cardsTransactions: CardsTransactionsTypes;
+  countItens: number;
   listTransactions: ListTransactionsTypes;
 };
 
 export function HomeTemplateUI({
   header,
   cardsTransactions,
+  countItens = 0,
   listTransactions,
 }: HomeTemplateTypes) {
   return (
@@ -25,7 +27,7 @@ export function HomeTemplateUI({
       <HeaderUI {...header} />
       <CardsTransationsUI {...cardsTransactions} />
       <View style={styles.countItens}>
-        <Text style={styles.countText}>12 itens</Text>
+        <Text style={styles.countText}>{countItens} itens</Text>
       </View>
       <ListTransactionsUI {...listTransactions} />
     </SafeAreaView>

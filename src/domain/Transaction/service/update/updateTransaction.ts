@@ -3,7 +3,6 @@ import { HttpClient } from "../../../../infra/HttpClient";
 
 export async function updateTransaction(transaction: TransactionDataTypes) {
   try {
-    console.log(`/transaction/${transaction.id}`);
     const httpClient = new HttpClient();
     await httpClient.put(`/transaction/${transaction.id}`, transaction);
   } catch (error) {

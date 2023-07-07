@@ -1,7 +1,7 @@
 export default function formatTwoDates(
   firstDate?: Date,
   lastDate?: Date
-): string | undefined {
+): string {
   // 01 a 13 de janeiro
 
   if (!firstDate || !lastDate) return "";
