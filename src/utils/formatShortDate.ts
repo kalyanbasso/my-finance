@@ -1,4 +1,4 @@
-export default function formatLongDate(value?: Date) {
+export default function formatShortDate(value?: Date) {
   if (!value) return "";
   // response from this function: 13/01/2021
   return new Intl.DateTimeFormat("pt-BR", {
