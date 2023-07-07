@@ -2,7 +2,7 @@ import React from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
 
 type CardTypes = {
-  value: number;
+  value: string;
   text: string;
 };
 
@@ -24,7 +24,7 @@ const Card = ({
   );
 };
 
-export function CardIncoming({ value = 0, text = "" }: CardTypes) {
+export function CardIncoming({ value = "0", text = "" }: CardTypes) {
   return (
     <Card
       title="Entradas"
@@ -35,7 +35,7 @@ export function CardIncoming({ value = 0, text = "" }: CardTypes) {
   );
 }
 
-export function CardOutcoming({ value = 0, text = "" }: CardTypes) {
+export function CardOutcoming({ value = "0", text = "" }: CardTypes) {
   return (
     <Card
       title="Saidas"
@@ -46,7 +46,7 @@ export function CardOutcoming({ value = 0, text = "" }: CardTypes) {
   );
 }
 
-export function CardTotal({ value = 0, text = "" }: CardTypes) {
+export function CardTotal({ value = "0", text = "" }: CardTypes) {
   return (
     <Card
       title="Total"

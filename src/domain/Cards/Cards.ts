@@ -1,4 +1,5 @@
 import { TransactionDataTypes } from "../../entity/Transaction/TransactionEntity";
+import formatCurrencyPtBr from "../../utils/formatCurrencyBRL";
 import formatLongDate from "../../utils/formatLongDatePtBr";
 import formatTwoDates from "../../utils/formatTwoDates";
 import { ICards, cardsType, CardsApiDataType } from "./ICards";
@@ -82,7 +83,7 @@ export class Cards implements ICards {
 
   get income(): cardsType {
     return {
-      value: this.totalIncoming,
+      value: formatCurrencyPtBr(this.totalIncoming),
       text: `Ultima entrada em ${formatLongDate(
         this.lastIncomingDateTransaction
       )}`,
@@ -91,7 +92,7 @@ export class Cards implements ICards {
 
   get outcome(): cardsType {
     return {
-      value: this.totalOutcoming,
+      value: formatCurrencyPtBr(this.totalOutcoming),
       text: `Ultima saída em ${formatLongDate(
         this.lastOutcomingDateTransaction
       )}`,
@@ -100,7 +101,7 @@ export class Cards implements ICards {
 
   get totalBalance(): cardsType {
     return {
-      value: this.total,
+      value: formatCurrencyPtBr(this.total),
       text: formatTwoDates(this.firstDateTransaction, this.lastDateTransaction),
     };
   }

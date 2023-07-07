@@ -10,6 +10,7 @@ import formatShortDate from "../../../utils/formatShortDate";
 import { useMemo, useState } from "react";
 import { EditTransactionForm } from "../../form/editTransaction/editTransactionForm";
 import Modal from "react-native-modal";
+import formatCurrencyPtBr from "../../../utils/formatCurrencyBRL";
 
 type ListTransactionsTypes = {
   list: TransactionDataTypes[];
@@ -23,7 +24,8 @@ const transaction = (
   item: TransactionDataTypes,
   openEditModal: (item: TransactionDataTypes) => void
 ) => {
-  const { title, amount, type, category, date } = item;
+  const { title, amount: value, type, category, date } = item;
+  const amount = formatCurrencyPtBr(value);
 
   const dateFormated = formatShortDate(date);
 

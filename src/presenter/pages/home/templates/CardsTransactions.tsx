@@ -8,15 +8,15 @@ import {
 
 export type CardsTransactionsTypes = {
   income: {
-    value: number;
+    value: string;
     text: string;
   };
   outcome: {
-    value: number;
+    value: string;
     text: string;
   };
   total: {
-    value: number;
+    value: string;
     text: string;
   };
   loading: boolean;
