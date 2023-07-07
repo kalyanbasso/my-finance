@@ -103,7 +103,6 @@ export function ListTransactions({
 const styles = StyleSheet.create({
   scrollView: {
     paddingHorizontal: 20,
-    height: 300,
   },
   miniCard: {
     height: 120,

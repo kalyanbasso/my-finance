@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet, ScrollView, View } from "react-native";
 
 import {
   CardIncoming,
@@ -28,18 +28,27 @@ export function CardsTransationsUI({
   total,
 }: CardsTransactionsTypes) {
   return (
-    <ScrollView horizontal style={styles.containerCards}>
-      <CardIncoming {...income} />
-      <CardOutcoming {...outcome} />
-      <CardTotal {...total} />
-    </ScrollView>
+    <View style={styles.relative}>
+      <ScrollView horizontal style={styles.containerCards}>
+        <CardIncoming {...income} />
+        <CardOutcoming {...outcome} />
+        <CardTotal {...total} />
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  containerCards: {
-    marginTop: -90,
-    marginLeft: 10,
-    height: 150,
+  relative: {
+    position: "relative",
+    top: -70,
+    // backgroundColor: "gray",
   },
+  containerCards: {
+    // backgroundColor: "pink",
+    display: "flex",
+    flexDirection: "row",
+    marginLeft: 10,
+  },
+  
 });

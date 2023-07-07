@@ -22,14 +22,16 @@ export function HomeTemplateUI({
   listTransactions,
 }: HomeTemplateTypes) {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.safeAreaView}>
       <StatusBar style="auto" />
       <HeaderUI {...header} />
       <CardsTransationsUI {...cardsTransactions} />
       <View style={styles.countItens}>
         <Text style={styles.countText}>{countItens} itens</Text>
       </View>
-      <ListTransactionsUI {...listTransactions} />
+      <View style={styles.listTransactions}>
+        <ListTransactionsUI {...listTransactions} />
+      </View>
     </SafeAreaView>
   );
 }
@@ -37,14 +39,22 @@ export function HomeTemplateUI({
 const styles = StyleSheet.create({
   // todo verificar css
   countItens: {
-    paddingHorizontal: 20,
-    marginTop: 10,
     marginLeft: "auto",
+    marginTop: -60,
+    marginRight: 20,
   },
   countText: {
     fontSize: 14,
     fontWeight: "500",
     marginBottom: 20,
     color: "#969CB2",
+  },
+  safeAreaView: {
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+  },
+  listTransactions: {
+    flex: 1,
   },
 });

@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import { FactoryTransaction } from "../../../domain/Transaction/FactoryTransaction";
 import { FactoryCards } from "../../../domain/Cards/FactoryCards";
 import { TransactionDataTypes } from "../../../entity/Transaction/TransactionEntity";
-import { FormTypes } from "../../form/createTransaction/createTransactionForm";
+import { FormTypes } from "../../form/transactionForm/transactionForm";
 import { HomeTemplateTypes, HomeTemplateUI } from "./templates/HomeTemplateUI";
 
 export function Home() {

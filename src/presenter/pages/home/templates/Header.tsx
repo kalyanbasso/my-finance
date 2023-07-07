@@ -1,5 +1,5 @@
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-import { FormTypes } from "../../../form/createTransaction/createTransactionForm";
+import { FormTypes } from "../../../form/transactionForm/transactionForm";
 import { CreateTransactionForm } from "../../../form/createTransaction/createTransactionForm";
 import { useState } from "react";
 import Modal from "react-native-modal";
@@ -7,8 +7,6 @@ import Modal from "react-native-modal";
 export type HeaderTypes = {
   submit: (data: FormTypes) => Promise<void>;
 };
-
-// importa o formulario (modalBottomSheet)
 
 export function HeaderUI({ submit }: HeaderTypes) {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,7 +59,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 30,
     width: "100%",
   },
   headerContainerLogo: {

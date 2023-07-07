@@ -16,11 +16,18 @@ export function ListTransactionsUI({
   loading,
 }: ListTransactionsTypes) {
   return (
-    <View>
-      {loading && <Text>Carregando...</Text>}
+    <View style={styles.teste}>
+      {loading && <Text style={styles.loading}>Carregando...</Text>}
       <ListTransactions list={list} delete={deleteTransaction} edit={edit} />
     </View>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  loading: {
+    textAlign: "center",
+    marginTop: 20,
+  },
+  teste: {
+  }
+});
