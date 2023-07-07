@@ -48,7 +48,7 @@ export class Transaction implements ITransatcion {
     ).create();
     const newTransaction = valueTransaction.create();
     if (!Object.keys(newTransaction).length) {
-      throw new Error("Transaction not created");
+      // throw new Error("Transaction not created");
     }
     await this.createTransaction(newTransaction);
   };

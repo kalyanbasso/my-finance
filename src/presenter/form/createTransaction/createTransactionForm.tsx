@@ -6,154 +6,171 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  ScrollView,
 } from "react-native";
-import { FactoryTransaction } from "../../../domain/Transaction/FactoryTransaction";
 import { TransactionType } from "../../../entity/Transaction/TransactionEntity";
+import * as zod from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
 export type FormTypes = {
   title: string;
   amount: number;
   category: string;
   type: TransactionType;
-}
+};
 
+type errorsTypes = {
+  title?: string[] | undefined;
+  amount?: string[] | undefined;
+  category?: string[] | undefined;
+};
 
 export function CreateTransactionForm({
   onClose,
-  setLoading,
+  submit,
 }: {
   onClose: () => void;
-  setLoading: (loading: boolean) => void;
+  submit: (data: FormTypes) => void;
 }) {
-  const [nome, setNome] = useState("");
-  const [preco, setPreco] = useState("");
-  const [type, setType] = useState<TransactionType | undefined>(undefined);
-  const [category, setCategory] = useState("");
-  const factoryTransaction = new FactoryTransaction().execute();
+  const [amount, setPreco] = useState("");
+  const [type, setType] = useState<TransactionType>("income");
+  const [errors, setErrors] = useState({} as errorsTypes);
 
-  const handleTypeSelection = (selectedType: TransactionType) => {
-    setType(selectedType);
+  const schema = zod.object({
+    title: zod
+      .string()
+      .min(3, "O título deve ter no mínimo 3 caracteres")
+      .max(255, "O título deve ter no máximo 255 caracteres"),
+    type: zod
+      .enum(["income", "outcome"])
+      .describe('O tipo deve ser "income" ou "outcome"'),
+    amount: zod.number().refine(
+      (value: number) => {
+        if (type === "income") {
+          return value > 0;
+        } else if (type === "outcome") {
+          return value < 0;
+        }
+        return false;
+      },
+      {
+        message:
+          'O valor deve ser maior que 0 para "Entrada" ou menor que 0 para "Saida"',
+      }
+    ),
+    category: zod
+      .string()
+      .min(3, "A categoria deve ter no mínimo 3 caracteres")
+      .max(255, "A categoria deve ter no máximo 255 caracteres"),
+  });
+
+  const method = useForm<FormTypes>({
+    defaultValues: {
+      title: "",
+      amount: 0,
+      category: "",
+      type: "income",
+    },
+    resolver: zodResolver(schema),
+  });
+
+  const handleAmount = (text: string) => {
+    const amount = text.replace(/[^0-9.-]/g, "");
+    setPreco(amount);
   };
 
-  const handlePrice = (price: string) => {
-    const priceFormatted = price.replace(/\D/g, "");
-    setPreco(priceFormatted);
-  };
+  const handleCreateTransaction = (data: FormTypes) => {
+    setErrors({} as errorsTypes);
 
-  const handleCreateTransaction = async () => {
-    setLoading(true);
+    const isValid = schema.safeParse(data);
 
-    const validate = validateForm();
-
-    if (!validate) {
+    if (!isValid.success) {
+      const errors = isValid.error.flatten();
+      setErrors(errors.fieldErrors);
       return;
     }
-
-    if (!type) {
-      alert("Tipo é obrigatório");
-      return;
-    }
-
-    await factoryTransaction.create({
-      id: undefined,
-      title: nome,
-      amount: Number(preco),
-      type,
-      category,
-      date: new Date(),
-    });
-    setLoading(false);
+    submit(data);
     onClose();
   };
 
-  const validateForm = () => {
-    if (!nome) {
-      alert("Nome é obrigatório");
-      return false;
-    }
-
-    if (!preco) {
-      alert("Preço é obrigatório");
-      return false;
-    }
-
-    if (!type) {
-      alert("Tipo é obrigatório");
-      return false;
-    }
-
-    if (!category) {
-      alert("Categoria é obrigatório");
-      return false;
-    }
-
-    return true;
+  const handleTypeSelection = (type: TransactionType) => {
+    setType(type);
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Cadastrar transacao</Text>
-        <TouchableOpacity onPress={() => onClose()}>
-          <Image
-            style={styles.closeButton}
-            source={require("../../../../assets/close.png")}
-          />
-        </TouchableOpacity>
-      </View>
+      <ScrollView>
+        <View style={styles.header}>
+          <Text style={styles.title}>Cadastrar transacao</Text>
+          <TouchableOpacity onPress={() => onClose()}>
+            <Image
+              style={styles.closeButton}
+              source={require("../../../../assets/close.png")}
+            />
+          </TouchableOpacity>
+        </View>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Nome"
-        value={nome}
-        onChangeText={setNome}
-      />
-      <TextInput
-        style={styles.input}
-        keyboardType="numeric"
-        placeholder="Preco"
-        value={preco}
-        onChangeText={handlePrice}
-      />
-      <View style={styles.typeContainer}>
+        <TextInput
+          style={[styles.input, !!errors.title && styles.inputError]}
+          placeholder="Nome"
+          onChangeText={(text) => method.setValue("title", text)}
+        />
+        {errors.title && <Text style={styles.error}>{errors.title}</Text>}
+
+        <TextInput
+          style={styles.input}
+          keyboardType="numeric"
+          placeholder="Preco"
+          value={amount}
+          onChangeText={(text) => {
+            handleAmount(text);
+            method.setValue("amount", Number(text));
+          }}
+        />
+        {errors.amount && <Text style={styles.error}>{errors.amount}</Text>}
+        <View style={styles.typeContainer}>
+          <TouchableOpacity
+            style={[
+              styles.typeButton,
+              type === "income" && styles.selectedTypeButton,
+            ]}
+            onPress={() => handleTypeSelection("income")}
+          >
+            <Image
+              style={styles.typeImage}
+              source={require("../../../../assets/income.png")}
+            />
+            <Text style={styles.type}>Entrada</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.typeButton,
+              type === "outcome" && styles.selectedTypeButton,
+            ]}
+            onPress={() => handleTypeSelection("outcome")}
+          >
+            <Image
+              style={styles.typeImage}
+              source={require("../../../../assets/outcome.png")}
+            />
+            <Text style={styles.type}>Saida</Text>
+          </TouchableOpacity>
+        </View>
+        <TextInput
+          style={styles.input}
+          placeholder="Categoria"
+          onChangeText={(text) => method.setValue("category", text)}
+        />
+        {errors.category && <Text style={styles.error}>{errors.category}</Text>}
+
         <TouchableOpacity
-          style={[
-            styles.typeButton,
-            type === "income" && styles.selectedTypeButton,
-          ]}
-          onPress={() => handleTypeSelection("income")}
+          style={styles.button}
+          onPress={() => handleCreateTransaction(method.getValues())}
         >
-          <Image
-            style={styles.typeImage}
-            source={require("../../../../assets/income.png")}
-          />
-          <Text style={styles.type}>Entrada</Text>
+          <Text style={styles.buttonText}>Cadastrar</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.typeButton,
-            type === "outcome" && styles.selectedTypeButton,
-          ]}
-          onPress={() => handleTypeSelection("outcome")}
-        >
-          <Image
-            style={styles.typeImage}
-            source={require("../../../../assets/outcome.png")}
-          />
-          <Text style={styles.type}>Saida</Text>
-        </TouchableOpacity>
-      </View>
-
-      <TextInput
-        style={styles.input}
-        placeholder="Categoria"
-        value={category}
-        onChangeText={setCategory}
-      />
-
-      <TouchableOpacity style={styles.button} onPress={handleCreateTransaction}>
-        <Text style={styles.buttonText}>Cadastrar</Text>
-      </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 }
@@ -236,5 +253,12 @@ const styles = StyleSheet.create({
   closeButton: {
     width: 40,
     height: 40,
+  },
+  inputError: {
+    borderColor: "#FF0000",
+  },
+  error: {
+    color: "red",
+    marginBottom: 10,
   },
 });

@@ -1,5 +1,8 @@
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { FormTypes } from "../../../form/createTransaction/createTransactionForm";
+import { CreateTransactionForm } from "../../../form/createTransaction/createTransactionForm";
+import { useState } from "react";
+import Modal from "react-native-modal";
 
 export type HeaderTypes = {
   submit: (data: FormTypes) => Promise<void>;
@@ -8,6 +11,9 @@ export type HeaderTypes = {
 // importa o formulario (modalBottomSheet)
 
 export function HeaderUI({ submit }: HeaderTypes) {
+
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <View style={styles.header}>
       <View style={styles.headerContainer}>
@@ -19,9 +25,22 @@ export function HeaderUI({ submit }: HeaderTypes) {
             />
           </View>
         </View>
-        <TouchableOpacity onPress={() => submit({} as FormTypes)}>
+        <TouchableOpacity onPress={() => setIsOpen(true)}>
           <Text style={styles.headerButtonNewTransaction}>Nova transação</Text>
         </TouchableOpacity>
+      </View>
+      <View style={{ flex: 1, borderRadius: 10 }}>
+        <Modal
+          isVisible={isOpen}
+          onSwipeComplete={() => setIsOpen(!isOpen)}
+          swipeDirection="down"
+          style={{ justifyContent: "flex-end", margin: 0, borderRadius: 10 }}
+        >
+          <CreateTransactionForm
+            onClose={() => setIsOpen(!isOpen)}
+            submit={submit}
+          />
+        </Modal>
       </View>
     </View>
   );
