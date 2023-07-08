@@ -72,11 +72,9 @@
     "collectCoverageFrom": [
       "<rootDir>/src/**/*.(js|jsx|ts|tsx)?",
       "!**/*.d.ts",
-      "!src/index.tsx",
-      "!src/pages/Home/index.tsx",
+      "!src/main.tsx",
       "!src/**/interfaces*.ts",
-      "!src/util/index.ts",
-      "!src/components/index.ts"
+      "!src/**/constants*.ts"
     ]
   }
 }

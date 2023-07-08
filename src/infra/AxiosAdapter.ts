@@ -1,5 +1,5 @@
 import axios, { Axios } from 'axios';
-import { IAdapterApi } from './IAdapterApi';
+import { IAdapterApi } from './interfacesAdapterApi';
 
 export class AxiosAdapter implements IAdapterApi {
     private readonly api: Axios;

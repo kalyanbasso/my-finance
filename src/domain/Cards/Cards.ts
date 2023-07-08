@@ -2,7 +2,7 @@ import { TransactionDataTypes } from "../../entity/Transaction/TransactionEntity
 import formatCurrencyPtBr from "../../utils/formatCurrencyBRL";
 import formatLongDate from "../../utils/formatLongDatePtBr";
 import formatTwoDates from "../../utils/formatTwoDates";
-import { ICards, cardsType, CardsApiDataType } from "./ICards";
+import { ICards, cardsType, CardsApiDataType } from "./interfacesCards";
 
 export class Cards implements ICards {
   private totalIncoming: number = 0;

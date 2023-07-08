@@ -4,7 +4,7 @@ import {
   CreateType,
   DeleteType,
   UpdateType,
-} from "./ITransatcion";
+} from "./interfacesTransatcion";
 import { TransactionDataTypes } from "../../entity/Transaction/TransactionEntity";
 import { FactoryTransactionEntity } from "../../entity/Transaction/FactoryTransactionEntity";
 
@@ -48,23 +48,17 @@ export class Transaction implements ITransatcion {
     ).create();
     const newTransaction = valueTransaction.create();
     if (!Object.keys(newTransaction).length) {
-      // throw new Error("Transaction not created");
-      console.error("Transaction not created")
       return
     }
     await this.createTransaction(newTransaction);
   };
 
   delete = async (id: string) => {
-    if (!id) {
-      console.log("Id not found");
-      return
-    }
     await this.deleteTransaction(id);
   };
 
   update = async (transaction: TransactionDataTypes) => {
-    //todo arrumar a factory
+    //TODO arrumar a factory
     const valueTransaction = new FactoryTransactionEntity(
       transaction.id,
       transaction.title,
@@ -75,7 +69,6 @@ export class Transaction implements ITransatcion {
     ).create();
     const editTransaction = valueTransaction.create();
     if (!Object.keys(editTransaction).length) {
-      console.error("Transaction not updated");
       return
     }
     await this.updateTransaction(editTransaction);

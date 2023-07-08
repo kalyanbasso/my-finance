@@ -155,7 +155,7 @@ describe("Cards", () => {
     const getCardsSpy = jest.fn();
     const cards = new Cards(getCardsSpy);
 
-    getCardsSpy.mockReturnValue(Promise.resolve([]));
+    getCardsSpy.mockReturnValue(Promise.resolve(null));
 
     const response = await cards.getCards();
 
