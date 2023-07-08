@@ -263,7 +263,6 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     lineHeight: 21,
     backgroundColor: "#E7E9EE",
-    color: "#969CB2",
   },
   button: {
     backgroundColor: "#33CC95",

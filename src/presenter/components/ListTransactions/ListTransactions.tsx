@@ -32,12 +32,14 @@ const transaction = (
   return (
     <TouchableOpacity onPress={() => openEditModal(item)}>
       <View style={styles.miniCard}>
-        <Text style={styles.miniCardTitle}>{title}</Text>
-        {type === "outcome" ? (
-          <Text style={styles.miniCardAmountNegative}>{amount}</Text>
-        ) : (
-          <Text style={styles.miniCardAmountPositive}>{amount}</Text>
-        )}
+        <View>
+          <Text style={styles.miniCardTitle}>{title}</Text>
+          {type === "outcome" ? (
+            <Text style={styles.miniCardAmountNegative}>{amount}</Text>
+          ) : (
+            <Text style={styles.miniCardAmountPositive}>{amount}</Text>
+          )}
+        </View>
         <View style={styles.miniCardBottom}>
           <Text style={styles.miniCardCategory}>{category}</Text>
           <Text style={styles.miniCardDate}>{dateFormated}</Text>

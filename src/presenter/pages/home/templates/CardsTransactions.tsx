@@ -29,7 +29,7 @@ export function CardsTransationsUI({
 }: CardsTransactionsTypes) {
   return (
     <View style={styles.relative}>
-      <ScrollView horizontal style={styles.containerCards}>
+      <ScrollView horizontal style={styles.containerCards} showsHorizontalScrollIndicator={false} >
         <CardIncoming {...income} />
         <CardOutcoming {...outcome} />
         <CardTotal {...total} />
@@ -41,11 +41,9 @@ export function CardsTransationsUI({
 const styles = StyleSheet.create({
   relative: {
     position: "relative",
-    top: -70,
-    // backgroundColor: "gray",
+    top: -100,
   },
   containerCards: {
-    // backgroundColor: "pink",
     display: "flex",
     flexDirection: "row",
     marginLeft: 10,

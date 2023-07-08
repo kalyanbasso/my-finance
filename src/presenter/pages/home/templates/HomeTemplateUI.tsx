@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   // todo verificar css
   countItens: {
     marginLeft: "auto",
-    marginTop: -60,
+    marginTop: -70,
     marginRight: 20,
   },
   countText: {
@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     height: "100%",
+    backgroundColor: "#F0F2F5"
   },
   listTransactions: {
     flex: 1,

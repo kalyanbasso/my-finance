@@ -18,8 +18,10 @@ const Card = ({
         <Text style={styles.cardTitle}>{title}</Text>
         <Image source={iconSource} style={styles.cardIcon} />
       </View>
-      <Text style={styles.cardAmount}>{value}</Text>
-      <Text style={styles.cardDate}>{text}</Text>
+      <View style={styles.cardLine} >
+        <Text style={styles.cardAmount}>{value}</Text>
+        <Text style={styles.cardDate}>{text}</Text>
+      </View>
     </View>
   );
 };
@@ -60,8 +62,8 @@ export function CardTotal({ value = "0", text = "" }: CardTypes) {
 const styles = StyleSheet.create({
   //todo verificar css
   card: {
-    width: 280,
-    height: 140,
+    width: 300,
+    height: 200,
     borderRadius: 5,
     marginRight: 10,
     display: "flex",
@@ -92,5 +94,8 @@ const styles = StyleSheet.create({
     color: "#969CB2",
     lineHeight: 18,
   },
-  cardIcon: { width: 30, height: 30 },
+  cardIcon: { width: 40, height: 40 },
+  cardLine: {
+    marginBottom: 10,
+  },
 });

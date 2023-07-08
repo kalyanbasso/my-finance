@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#33CC95",
     padding: 20,
     paddingTop: 50,
-    height: 300,
+    height: 235,
   },
   headerContainer: {
     display: "flex",
@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
+    marginTop: 10,
   },
   headerContainerLogo: {
     display: "flex",
