@@ -1,8 +1,8 @@
 import { AxiosAdapter } from "./AxiosAdapter";
-import { API_URL } from "./constants";
+import constants from "./constants";
 
 export class HttpClient {
-  constructor(private readonly adapterApi = new AxiosAdapter(API_URL)) {}
+  constructor(private readonly adapterApi = new AxiosAdapter(constants.API_URL)) {}
 
   async get<T>(url: string) {
     const getApi = this.adapterApi.getApi;
