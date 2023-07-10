@@ -58,9 +58,9 @@ export class Cards implements ICards {
       }
 
       this.updateFirstAndLastDateTransaction(transaction);
-
-      this.total += +transaction.amount;
     });
+
+    this.total = this.totalIncoming - this.totalOutcoming;
   }
 
   private resetCards() {
@@ -82,29 +82,29 @@ export class Cards implements ICards {
   }
 
   get income(): cardsType {
-    const text = this.lastIncomingDateTransaction ? `Ultima entrada em ${formatLongDate(
-      this.lastIncomingDateTransaction
-    )}` : 'Nenhuma entrada cadastrada';
+    const text = this.lastIncomingDateTransaction
+      ? `Ultima entrada em ${formatLongDate(this.lastIncomingDateTransaction)}`
+      : "Nenhuma entrada cadastrada";
 
     return {
       value: formatCurrencyPtBr(this.totalIncoming),
-      text
+      text,
     };
   }
 
   get outcome(): cardsType {
-    const text = this.lastOutcomingDateTransaction ? `Ultima saída em ${formatLongDate(
-      this.lastOutcomingDateTransaction
-    )}` : 'Nenhuma saída cadastrada';
+    const text = this.lastOutcomingDateTransaction
+      ? `Ultima saída em ${formatLongDate(this.lastOutcomingDateTransaction)}`
+      : "Nenhuma saída cadastrada";
     return {
-      value: formatCurrencyPtBr(this.totalOutcoming),
-      text
+      value: this.totalOutcoming <= 0 ? 'R$ 0,00' : `- ${formatCurrencyPtBr(this.totalOutcoming)}`,
+      text,
     };
   }
 
   get totalBalance(): cardsType {
     return {
-      value: formatCurrencyPtBr(this.total),
+      value: this.total <= 0 ? `- ${formatCurrencyPtBr(this.total)}`: formatCurrencyPtBr(this.total),
       text: formatTwoDates(this.firstDateTransaction, this.lastDateTransaction),
     };
   }

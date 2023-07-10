@@ -15,6 +15,7 @@ import {
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import formatCurrencyPtBr from "../../../utils/formatCurrencyBRL";
 
 export type FormTypes = {
   title: string;
@@ -42,10 +43,10 @@ export function TransactionForm({
   submit,
   transaction,
   deleteTransaction,
-  editTransaction
+  editTransaction,
 }: TransactionFormProps) {
   const [title, setTitle] = useState(transaction?.title || "");
-  const [amount, setAmount] = useState(transaction?.amount.toString() || "");
+  const [amount, setAmount] = useState(transaction?.amount? formatCurrencyPtBr(transaction.amount) : "");
   const [category, setCategory] = useState(transaction?.category || "");
   const [type, setType] = useState<TransactionType>(
     transaction?.type || "income"
@@ -56,34 +57,21 @@ export function TransactionForm({
     title: zod
       .string()
       .min(3, "O título deve ter no mínimo 3 caracteres")
-      .max(255, "O título deve ter no máximo 255 caracteres"),
+      .max(50, "O título deve ter no máximo 50 caracteres"),
     type: zod
       .enum(["income", "outcome"])
       .describe('O tipo deve ser "income" ou "outcome"'),
-    amount: zod.number().refine(
-      (value: number) => {
-        if (type === "income") {
-          return value > 0;
-        } else if (type === "outcome") {
-          return value < 0;
-        }
-        return false;
-      },
-      {
-        message:
-          'O valor deve ser maior que 0 para "Entrada" ou menor que 0 para "Saída"',
-      }
-    ),
+    amount: zod.number().min(1, "O valor deve ser maior que zero"),
     category: zod
       .string()
       .min(3, "A categoria deve ter no mínimo 3 caracteres")
-      .max(255, "A categoria deve ter no máximo 255 caracteres"),
+      .max(50, "A categoria deve ter no máximo 50 caracteres"),
   });
 
   const method = useForm<FormTypes>({
     defaultValues: {
       title,
-      amount: Number(amount),
+      amount: transaction?.amount ? Number(transaction?.amount) : 0,
       category,
       type,
     },
@@ -96,8 +84,9 @@ export function TransactionForm({
   };
 
   const handleAmount = (text: string) => {
-    const amount = text.replace(/[^0-9.-]/g, "");
-    setAmount(amount);
+    const amount = Number(text.replace(/[^0-9]/g, ""));
+    setAmount(formatCurrencyPtBr(amount));
+    method.setValue("amount", amount);
   };
 
   const handleSubmitTransaction = (data: FormTypes) => {
@@ -117,7 +106,7 @@ export function TransactionForm({
         ...data,
       };
       editTransaction(editedTransaction);
-    } else if(submit) {
+    } else if (submit) {
       // Creating a new transaction
       submit(data);
     }
@@ -167,10 +156,7 @@ export function TransactionForm({
           placeholder="Preço"
           testID="amount-input"
           value={amount}
-          onChangeText={(text) => {
-            handleAmount(text);
-            method.setValue("amount", Number(text));
-          }}
+          onChangeText={(text) => handleAmount(text)}
         />
         {errors.amount && <Text style={styles.error}>{errors.amount}</Text>}
 

@@ -16,8 +16,11 @@ export function ListTransactionsUI({
   loading,
 }: ListTransactionsTypes) {
   return (
-    <View style={styles.teste}>
+    <View>
       {loading && <Text style={styles.loading}>Carregando...</Text>}
+      {list.length === 0 && !loading && (
+        <Text style={styles.empty}>Nenhuma transação cadastrada</Text>
+      )}
       <ListTransactions list={list} delete={deleteTransaction} edit={edit} />
     </View>
   );
@@ -28,6 +31,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 20,
   },
-  teste: {
-  }
+  empty: {
+    textAlign: "center",
+    marginTop: 20,
+  },
 });

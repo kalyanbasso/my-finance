@@ -13,7 +13,7 @@ describe("TransactionForm", () => {
     const input = screen.getByTestId("amount-input");
     fireEvent.changeText(input, "123");
     expect(input).toBeTruthy();
-    expect(input).toHaveProp("value", "123");
+    expect(input).toHaveProp("value", "R$ 1,23");
   });
 
   it("should apply the value in title", () => {

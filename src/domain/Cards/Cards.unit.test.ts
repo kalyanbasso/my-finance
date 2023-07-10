@@ -13,7 +13,7 @@ describe("Cards", () => {
       {
         id: "1",
         title: "test",
-        amount: 100,
+        amount: 10000,
         date: new Date("2023-07-07T00:00:00"),
         category: "test",
         type: "income",
@@ -21,7 +21,7 @@ describe("Cards", () => {
       {
         id: "1",
         title: "test",
-        amount: 100,
+        amount: 10000,
         date: new Date("2023-07-08T00:00:00"),
         category: "test",
         type: "income",
@@ -60,7 +60,7 @@ describe("Cards", () => {
       {
         id: "1",
         title: "test",
-        amount: -100,
+        amount: 10000,
         date: new Date("2023-07-07T00:00:00"),
         category: "test",
         type: "outcome",
@@ -68,7 +68,7 @@ describe("Cards", () => {
       {
         id: "2",
         title: "test",
-        amount: -100,
+        amount: 10000,
         date: new Date("2023-07-06T00:00:00"),
         category: "test",
         type: "outcome",
@@ -76,7 +76,7 @@ describe("Cards", () => {
       {
         id: "2",
         title: "test",
-        amount: -100,
+        amount: 10000,
         date: new Date("2023-07-08T00:00:00"),
         category: "test",
         type: "outcome",
@@ -95,12 +95,12 @@ describe("Cards", () => {
     };
 
     const outcomeExpected = {
-      value: "R$ -300,00",
+      value: "- R$ 300,00",
       text: "Ultima saída em 08 de julho",
     };
 
     const totalExpected = {
-      value: "R$ -300,00",
+      value: "- R$ 300,00",
       text: "06 à 08 de julho",
     };
     expect(income).toStrictEqual(incomeExpected);
@@ -115,7 +115,7 @@ describe("Cards", () => {
       {
         id: "1",
         title: "test",
-        amount: 100,
+        amount: 10000,
         date: new Date("2023-07-07T00:00:00"),
         category: "test",
         type: "income",

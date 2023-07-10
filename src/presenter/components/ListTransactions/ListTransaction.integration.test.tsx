@@ -34,7 +34,7 @@ describe("ListTransactions", () => {
       />
     );
 
-    expect(screen.getByText("R$ 100,00")).toBeTruthy();
+    expect(screen.getByText("R$ 1,00")).toBeTruthy();
     expect(screen.getByText("02/02/2023")).toBeTruthy();
     expect(screen.getByText("category")).toBeTruthy();
   });
@@ -60,7 +60,7 @@ describe("ListTransactions", () => {
     const transaction: TransactionDataTypes = {
       id: "1",
       title: "title",
-      amount: -100,
+      amount: 10000,
       type: "outcome",
       category: "category",
       date: new Date("2023-02-02T00:00:00"),
@@ -74,14 +74,14 @@ describe("ListTransactions", () => {
       />
     );
 
-    expect(screen.getByText("R$ -100,00")).toBeTruthy();
+    expect(screen.getByText("- R$ 100,00")).toBeTruthy();
   })
 
   it("should render income transaction", () => {
     const transaction: TransactionDataTypes = {
       id: "1",
       title: "title",
-      amount: 100,
+      amount: 10000,
       type: "income",
       category: "category",
       date: new Date("2023-02-02T00:00:00"),
