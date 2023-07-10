@@ -41,7 +41,6 @@ describe("HomeTemplate", () => {
 
     expect(screen.getByText(/Carregando.../i)).toBeVisible()
 
-    // test function
     expect(dataHome.header.submit).not.toBeCalled()
     expect(dataHome.listTransactions.delete).not.toBeCalled()
     expect(dataHome.listTransactions.edit).not.toBeCalled()

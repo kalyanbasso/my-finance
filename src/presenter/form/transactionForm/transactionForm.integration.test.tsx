@@ -4,7 +4,6 @@ import { TransactionForm } from "./transactionForm";
 import { TransactionDataTypes } from "../../../entity/Transaction/TransactionEntity";
 
 describe("TransactionForm", () => {
-  // test inputs
   it("should apply the value in amount", () => {
     const submit = jest.fn();
     const onClose = jest.fn();
@@ -71,8 +70,7 @@ describe("TransactionForm", () => {
     };
 
     render(<TransactionForm submit={submit} onClose={onClose} />);
-
-    // Simulate changes and submit the form
+    
     fireEvent.changeText(screen.getByTestId("title-input"), formData.title);
     fireEvent.changeText(
       screen.getByTestId("amount-input"),

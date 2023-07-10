@@ -81,7 +81,6 @@ export class Cards implements ICards {
     this.formatCards(response);
   }
 
-  // pra nao precisar iniciar o income como uma funcao e acessala como uma variavel
   get income(): cardsType {
     const text = this.lastIncomingDateTransaction ? `Ultima entrada em ${formatLongDate(
       this.lastIncomingDateTransaction

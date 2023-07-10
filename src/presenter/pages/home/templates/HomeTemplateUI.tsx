@@ -37,7 +37,6 @@ export function HomeTemplateUI({
 }
 
 const styles = StyleSheet.create({
-  // todo verificar css
   countItens: {
     marginLeft: "auto",
     marginTop: -70,

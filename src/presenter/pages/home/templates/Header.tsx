@@ -44,7 +44,6 @@ export function HeaderUI({ submit }: HeaderTypes) {
 }
 
 const styles = StyleSheet.create({
-  //todo verificar css
   header: {
     display: "flex",
     flexDirection: "row",

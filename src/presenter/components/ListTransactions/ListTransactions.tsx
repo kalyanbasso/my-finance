@@ -54,8 +54,6 @@ export function ListTransactions({
   delete: deleteTransaction,
   edit,
 }: ListTransactionsTypes) {
-  // todo aqui vai ter o form de editar tmb
-
   const [isOpen, setIsOpen] = useState(false);
   const [selectedTransaction, setTransaction] = useState<TransactionDataTypes>({
     id: "",

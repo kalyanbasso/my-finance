@@ -60,7 +60,6 @@ export function CardTotal({ value, text }: CardTypes) {
 }
 
 const styles = StyleSheet.create({
-  //todo verificar css
   card: {
     width: 300,
     height: 200,
