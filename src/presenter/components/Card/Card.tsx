@@ -26,7 +26,7 @@ const Card = ({
   );
 };
 
-export function CardIncoming({ value = "0", text = "" }: CardTypes) {
+export function CardIncoming({ value, text }: CardTypes) {
   return (
     <Card
       title="Entradas"
@@ -37,10 +37,10 @@ export function CardIncoming({ value = "0", text = "" }: CardTypes) {
   );
 }
 
-export function CardOutcoming({ value = "0", text = "" }: CardTypes) {
+export function CardOutcoming({ value, text }: CardTypes) {
   return (
     <Card
-      title="Saidas"
+      title="Saídas"
       iconSource={require("../../../../assets/outcome.png")}
       value={value}
       text={text}
@@ -48,7 +48,7 @@ export function CardOutcoming({ value = "0", text = "" }: CardTypes) {
   );
 }
 
-export function CardTotal({ value = "0", text = "" }: CardTypes) {
+export function CardTotal({ value, text }: CardTypes) {
   return (
     <Card
       title="Total"

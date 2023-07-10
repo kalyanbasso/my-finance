@@ -30,7 +30,7 @@ const transaction = (
   const dateFormated = formatShortDate(date);
 
   return (
-    <TouchableOpacity onPress={() => openEditModal(item)}>
+    <TouchableOpacity testID="edit-button" onPress={() => openEditModal(item)}>
       <View style={styles.miniCard}>
         <View>
           <Text style={styles.miniCardTitle}>{title}</Text>
@@ -86,6 +86,7 @@ export function ListTransactions({
       <View style={{ flex: 1, borderRadius: 10 }}>
         <Modal
           isVisible={isOpen}
+          testID="modal"
           onSwipeComplete={() => setIsOpen(!isOpen)}
           swipeDirection="down"
           style={{ justifyContent: "flex-end", margin: 0, borderRadius: 10 }}

@@ -152,6 +152,7 @@ export function TransactionForm({
         <TextInput
           style={styles.input}
           placeholder="Nome"
+          testID="title-input"
           value={title}
           onChangeText={(text) => {
             setTitle(text);
@@ -164,6 +165,7 @@ export function TransactionForm({
           style={styles.input}
           keyboardType="numeric"
           placeholder="Preço"
+          testID="amount-input"
           value={amount}
           onChangeText={(text) => {
             handleAmount(text);
@@ -178,6 +180,7 @@ export function TransactionForm({
               styles.typeButton,
               type === "income" && styles.selectedIncomeButton,
             ]}
+            testID="income-button"
             onPress={() => handleTypeSelection("income")}
           >
             <Image
@@ -191,6 +194,7 @@ export function TransactionForm({
               styles.typeButton,
               type === "outcome" && styles.selectedOutcomeButton,
             ]}
+            testID="outcome-button"
             onPress={() => handleTypeSelection("outcome")}
           >
             <Image
@@ -204,6 +208,7 @@ export function TransactionForm({
         <TextInput
           style={styles.input}
           placeholder="Categoria"
+          testID="category-input"
           value={category}
           onChangeText={(text) => {
             setCategory(text);
@@ -214,6 +219,7 @@ export function TransactionForm({
 
         <TouchableOpacity
           style={styles.button}
+          testID="submit-button"
           onPress={() => handleSubmitTransaction(method.getValues())}
         >
           <Text style={styles.buttonText}>
@@ -225,6 +231,7 @@ export function TransactionForm({
           <TouchableOpacity
             style={[styles.button, styles.deleteButton]}
             onPress={handleDeleteTransaction}
+            testID="delete-button"
           >
             <Text style={styles.buttonText}>Excluir</Text>
           </TouchableOpacity>

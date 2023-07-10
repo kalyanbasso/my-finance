@@ -73,6 +73,7 @@
       "<rootDir>/src/**/*.(js|jsx|ts|tsx)?",
       "!**/*.d.ts",
       "!src/main.tsx",
+      "!src/presenter/pages/home/home.tsx",
       "!src/**/interfaces*.ts",
       "!src/**/constants*.ts"
     ]

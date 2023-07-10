@@ -22,7 +22,7 @@ export function HeaderUI({ submit }: HeaderTypes) {
             />
           </View>
         </View>
-        <TouchableOpacity onPress={() => setIsOpen(true)}>
+        <TouchableOpacity testID="new-transaction-button" onPress={() => setIsOpen(true)}>
           <Text style={styles.headerButtonNewTransaction}>Nova transação</Text>
         </TouchableOpacity>
       </View>
