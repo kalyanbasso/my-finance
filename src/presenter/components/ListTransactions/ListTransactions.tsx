@@ -75,6 +75,9 @@ export function ListTransactions({
 
   return (
     <View>
+      {list.length === 0 && (
+        <Text style={styles.empty}>Nenhuma transação cadastrada</Text>
+      )}
       <FlatList
         data={updatedList}
         renderItem={({ item }) => transaction(item, openEditModal)}
@@ -149,5 +152,9 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     fontWeight: "400",
     color: "#969CB2",
+  },
+  empty: {
+    textAlign: "center",
+    marginTop: 20,
   },
 });
