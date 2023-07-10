@@ -66,6 +66,11 @@ A arquitetura utilizada foi a Clean Architecture, SOLID e DDD, onde o projeto é
 
 - Test Layer: Responsável pelos testes automatizados do projeto. Foram utilizados os testes unitários com Jest para garantir a qualidade e a integridade do código.
 
+## API
+
+A API utilizada foi o mockapi.io, que permite criar uma API REST fake para testes e prototipação.
+
+O endpoint utilizado foi o '/transaction', que permite fazer as operações de CRUD. O correto seria criar um endpoint específico para recuperar a informação dos Cards de entrada, saída e total, porem para simplificar o projeto a informação foi recuperada do endpoint '/transaction' e foi realizado um calculo para obter os valores necessários.
 
 ## Features
 
